@@ -29,10 +29,11 @@ namespace TransportService
 
             var context = new TransportEntities();
             int id = int.Parse(dpRoutes.SelectedValue);
+           
             var pickup = new PickupTable
             {
-                PickupName = txtPickupPoint.Text.ToString(),
-                PickupNo = int.Parse(txtNoOfStops.Text),
+                PickupName = txtPickupPoint.Text,
+                PickupNo = int.Parse(txtNo.Text),
                 RouteId=id
             };
             repo.AddPickup(pickup);
