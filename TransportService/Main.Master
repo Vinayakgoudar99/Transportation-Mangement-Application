@@ -1,0 +1,42 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.Master.cs" Inherits="TransportService.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+            <div class="row">
+                <h1 class="align-content-center">Transport Managemnt Software</h1>
+                <hr />
+            </div>
+            <div class="row">
+                 <asp:Menu runat="server" Orientation="Horizontal">
+                     <Items>
+                         <asp:MenuItem runat="server" Text="Home" NavigateUrl=""></asp:MenuItem>
+                         <asp:MenuItem runat="server" Text="Service" NavigateUrl="~/Service.aspx"></asp:MenuItem>
+                         <asp:MenuItem runat="server" Text="Add Routes" NavigateUrl="~/AddRoutes.aspx"></asp:MenuItem>
+                          <asp:MenuItem runat="server" Text="Generate Bill" NavigateUrl="~/Bill.aspx"></asp:MenuItem>
+                     </Items>
+                 </asp:Menu>
+             </div>
+            <hr />
+            <div class="row">
+                <asp:ContentPlaceHolder ID="mainContent" runat="server">
+
+                 </asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+            
+
+       
+    </form>
+</body>
+</html>
