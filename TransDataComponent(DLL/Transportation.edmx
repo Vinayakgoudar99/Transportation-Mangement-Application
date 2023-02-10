@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BillTable">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BillAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="EmpId" Type="int" />
+        </EntityType>
+        <EntityType Name="EmployeeTable">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PickupTable">
+          <Key>
+            <PropertyRef Name="PickupId" />
+          </Key>
+          <Property Name="PickupId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PickupNo" Type="int" Nullable="false" />
+          <Property Name="PickupName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RouteId" Type="int" />
+        </EntityType>
+        <EntityType Name="RoutesTable">
+          <Key>
+            <PropertyRef Name="RouteId" />
+          </Key>
+          <Property Name="RouteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RouteName" Type="varchar(max)" Nullable="false" />
+          <Property Name="NoOfPickPoints" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BillTable__EmpId__43D61337">
+          <End Role="EmployeeTable" Type="Self.EmployeeTable" Multiplicity="0..1" />
+          <End Role="BillTable" Type="Self.BillTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeTable">
+              <PropertyRef Name="EmpId" />
+            </Principal>
+            <Dependent Role="BillTable">
+              <PropertyRef Name="EmpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PickupTab__Route__3F115E1A">
+          <End Role="RoutesTable" Type="Self.RoutesTable" Multiplicity="0..1" />
+          <End Role="PickupTable" Type="Self.PickupTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoutesTable">
+              <PropertyRef Name="RouteId" />
+            </Principal>
+            <Dependent Role="PickupTable">
+              <PropertyRef Name="RouteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="BillTable" EntityType="Self.BillTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeTable" EntityType="Self.EmployeeTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PickupTable" EntityType="Self.PickupTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoutesTable" EntityType="Self.RoutesTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BillTable__EmpId__43D61337" Association="Self.FK__BillTable__EmpId__43D61337">
+            <End Role="EmployeeTable" EntitySet="EmployeeTable" />
+            <End Role="BillTable" EntitySet="BillTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PickupTab__Route__3F115E1A" Association="Self.FK__PickupTab__Route__3F115E1A">
+            <End Role="RoutesTable" EntitySet="RoutesTable" />
+            <End Role="PickupTable" EntitySet="PickupTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PickupTable">
+          <Key>
+            <PropertyRef Name="PickupId" />
+          </Key>
+          <Property Name="PickupId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PickupNo" Type="Int32" Nullable="false" />
+          <Property Name="PickupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RouteId" Type="Int32" />
+          <NavigationProperty Name="RoutesTable" Relationship="Self.FK__PickupTab__Route__3F115E1A" FromRole="PickupTable" ToRole="RoutesTable" />
+        </EntityType>
+        <EntityType Name="RoutesTable">
+          <Key>
+            <PropertyRef Name="RouteId" />
+          </Key>
+          <Property Name="RouteId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RouteName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NoOfPickPoints" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="PickupTables" Relationship="Self.FK__PickupTab__Route__3F115E1A" FromRole="RoutesTable" ToRole="PickupTable" />
+        </EntityType>
+        <Association Name="FK__PickupTab__Route__3F115E1A">
+          <End Role="RoutesTable" Type="Self.RoutesTable" Multiplicity="0..1" />
+          <End Role="PickupTable" Type="Self.PickupTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoutesTable">
+              <PropertyRef Name="RouteId" />
+            </Principal>
+            <Dependent Role="PickupTable">
+              <PropertyRef Name="RouteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TransportEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PickupTables" EntityType="Self.PickupTable" />
+          <EntitySet Name="RoutesTables" EntityType="Self.RoutesTable" />
+          <AssociationSet Name="FK__PickupTab__Route__3F115E1A" Association="Self.FK__PickupTab__Route__3F115E1A">
+            <End Role="RoutesTable" EntitySet="RoutesTables" />
+            <End Role="PickupTable" EntitySet="PickupTables" />
+          </AssociationSet>
+          <EntitySet Name="BillTables" EntityType="Model.BillTable" />
+          <EntitySet Name="EmployeeTables" EntityType="Model.EmployeeTable" />
+          <AssociationSet Name="FK__BillTable__EmpId__43D61337" Association="Model.FK__BillTable__EmpId__43D61337">
+            <End Role="EmployeeTable" EntitySet="EmployeeTables" />
+            <End Role="BillTable" EntitySet="BillTables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BillTable">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BillAmount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="EmpId" Type="Int32" />
+          <NavigationProperty Name="EmployeeTable" Relationship="Model.FK__BillTable__EmpId__43D61337" FromRole="BillTable" ToRole="EmployeeTable" />
+        </EntityType>
+        <EntityType Name="EmployeeTable">
+          <Key>
+            <PropertyRef Name="EmpId" />
+          </Key>
+          <Property Name="EmpId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BillTables" Relationship="Model.FK__BillTable__EmpId__43D61337" FromRole="EmployeeTable" ToRole="BillTable" />
+        </EntityType>
+        <Association Name="FK__BillTable__EmpId__43D61337">
+          <End Type="Model.EmployeeTable" Role="EmployeeTable" Multiplicity="0..1" />
+          <End Type="Model.BillTable" Role="BillTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeTable">
+              <PropertyRef Name="EmpId" />
+            </Principal>
+            <Dependent Role="BillTable">
+              <PropertyRef Name="EmpId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="TransportEntities">
+          <EntitySetMapping Name="PickupTables">
+            <EntityTypeMapping TypeName="Model.PickupTable">
+              <MappingFragment StoreEntitySet="PickupTable">
+                <ScalarProperty Name="PickupId" ColumnName="PickupId" />
+                <ScalarProperty Name="PickupNo" ColumnName="PickupNo" />
+                <ScalarProperty Name="PickupName" ColumnName="PickupName" />
+                <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoutesTables">
+            <EntityTypeMapping TypeName="Model.RoutesTable">
+              <MappingFragment StoreEntitySet="RoutesTable">
+                <ScalarProperty Name="RouteId" ColumnName="RouteId" />
+                <ScalarProperty Name="RouteName" ColumnName="RouteName" />
+                <ScalarProperty Name="NoOfPickPoints" ColumnName="NoOfPickPoints" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BillTables">
+            <EntityTypeMapping TypeName="Model.BillTable">
+              <MappingFragment StoreEntitySet="BillTable">
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+                <ScalarProperty Name="BillAmount" ColumnName="BillAmount" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeTables">
+            <EntityTypeMapping TypeName="Model.EmployeeTable">
+              <MappingFragment StoreEntitySet="EmployeeTable">
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="EmpId" ColumnName="EmpId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
